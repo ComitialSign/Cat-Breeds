@@ -1,0 +1,32 @@
+@import "./Variables.scss";
+
+.container {
+  width: 40vw;
+  min-height: 70vh; //mudar futuramente
+  max-height: auto;
+  background-color: $mainContent-background-color;
+  border-radius: 20px;
+}
+
+.c__search {
+  width: $c__search-width;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .input {
+    width: calc($c__search-width / 3);
+    padding: 8px;
+    border-radius: 10px 0 0 10px;
+    border-right: 0;
+  }
+  .btn {
+    padding: 8px;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+
+    &:active {
+      background-color: gray;
+    }
+  }
+}

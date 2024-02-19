@@ -1,0 +1,17 @@
+@import "./assets/scss/Variables.scss";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $body-background-color;
+  width: 100%;
+  min-height: 100vh;
+  max-height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
