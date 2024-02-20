@@ -2,7 +2,7 @@
 
 .container {
   width: 40vw;
-  min-height: 70vh; //mudar futuramente
+  min-height: 70vh;
   max-height: auto;
   background-color: $mainContent-background-color;
   border-radius: 20px;
@@ -12,21 +12,71 @@
   width: $c__search-width;
   height: 8vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  .input {
-    width: calc($c__search-width / 3);
-    padding: 8px;
-    border-radius: 10px 0 0 10px;
-    border-right: 0;
+  position: relative;
+  padding-top: 20px;
+  .search__bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    .search {
+      width: calc($c__search-width / 2.4);
+      padding: 8px;
+      border-radius: 8px;
+      &:focus {
+        border-radius: 8px 8px 0 0;
+        outline: none;
+      }
+    }
   }
-  .btn {
-    padding: 8px;
-    border-radius: 0 10px 10px 0;
-    cursor: pointer;
-
-    &:active {
-      background-color: gray;
+  .search__result {
+    width: $c__search-width;
+    height: 100%;
+    border-radius: 0 0 8px 8px;
+    border-top: 0;
+    display: flex;
+    justify-content: center;
+    .result--disabled {
+      display: none;
+    }
+    .result--activated {
+      width: calc(100% / 2.4);
+      min-height: 0;
+      max-height: 320px;
+      border: 1.2px solid black;
+      border-radius: 0 0 8px 8px;
+      border-top: 0;
+      display: flex;
+      justify-content: start;
+      background-color: $Result-background-color;
+      overflow-y: scroll;
+      position: absolute;
+      &::-webkit-scrollbar {
+        display: none;
+        scrollbar-width: none;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: transparent;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: transparent;
+      }
+      .ul {
+        width: 100%;
+        list-style: none;
+        .li {
+          width: 100%;
+          padding: 8px;
+          cursor: pointer;
+          &:hover {
+            background-color: gray;
+          }
+        }
+      }
     }
   }
 }
