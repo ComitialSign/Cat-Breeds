@@ -1,6 +1,6 @@
 import "../../scss/MainContent.scss";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Input from "../../components/Input/Input";
 
 function MainContent() {
@@ -8,12 +8,16 @@ function MainContent() {
   const key =
     "live_2VLvzrLQkBa73XBFM01WEwvF1ervcvLygzjfvV5MvaGJHBCSbhQE8zYXrGuZm9T2";
 
+  //nome da raça de acordo com o search bar
   const [searchTerm, setSearchTerm] = useState("Abyssinian");
-  const [breedId, setBreedId] = useState("abys");
+  //array com o data do fetch
   const [breeds, setBreeds] = useState([]);
+  //loading do conteudo fetch
   const [loading, setLoading] = useState(true);
-  const [onFocused, setOnFocused] = useState(false);
+  //focus/blur da div com o filter da search bar
+  const [onFocus, setOnFocus] = useState(false);
 
+  //Fetch do CatAPI
   useEffect(() => {
     async function fetchData() {
       try {
@@ -32,7 +36,6 @@ function MainContent() {
         setLoading(false);
 
         console.log(data);
-        console.log(breeds);
       } catch (error) {
         console.error("ocorreu um erro: ", error);
         setLoading(false);
@@ -41,79 +44,86 @@ function MainContent() {
     fetchData();
   }, []);
 
-  // lida com o foco no input e ativa o result
+  const filteredBreeds = useMemo(() => {
+    return breeds.filter((breed) => {
+      if (breed === "") {
+        return breed;
+      } else if (
+        breed.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+      ) {
+        return breed;
+      }
+    });
+  }, [breeds, searchTerm]);
+
+  //lida com o foco no input e ativa o result
   const handleFocus = () => {
-    setOnFocused(true);
-    console.log("focus activated!");
+    setOnFocus(true);
   };
 
   // fecha o result ao tirar o foco
   const handleBlur = () => {
-    setOnFocused(false);
-    console.log("focus disabled!");
+    new Promise((resolve) => {
+      setTimeout(() => {
+        setOnFocus(false);
+        resolve();
+      }, 200);
+    });
   };
 
-  // seta o nome e id no breedId e breedName
-  const handleGetBreedInfo = (value) => {
+  const handleClickGetBreedName = (value) => {
     setSearchTerm(value);
-    console.log(searchTerm);
   };
 
   return (
     <main className="container">
-      <div className="c__search">
-        <div className="search__bar">
-          <Input
-            type={"text"}
-            placeholder={"Pesquisar"}
-            value={searchTerm}
-            className={"search"}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onChange={(event) => handleGetBreedInfo(event.target.value)}
-          />
-        </div>
-        <div className="search__result">
-          <div
-            className={`${
-              onFocused ? "result--activated" : "result--disabled"
-            }`}
-          >
-            <ul className="ul">
-              {breeds
-                .filter((breed) => {
-                  if (breed === "") {
-                    return breed;
-                  } else if (
-                    breed.name
-                      .toLowerCase()
-                      .startsWith(searchTerm.toLowerCase())
-                  ) {
-                    return breed;
-                  }
-                })
-                .map((breed) => (
-                  <li
-                    key={breed.id}
-                    className="li"
-                    onClick={() => handleGetBreedInfo(breed.name)}
-                  >
-                    {breed.name}
-                  </li>
-                ))}
-            </ul>
+      {loading ? (
+        <p>Carregando</p>
+      ) : (
+        <>
+          <div className="c__search">
+            <div className="search__bar">
+              <Input
+                type={"search"}
+                placeholder={"Pesquisar raça"}
+                value={searchTerm}
+                className={"search"}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                onChange={(event) => setSearchTerm(event.target.value)}
+              />
+            </div>
+            <div className="search__result">
+              <div
+                className={`${
+                  onFocus ? "result--activated" : "result--disabled"
+                }`}
+              >
+                <ul className="ul">
+                  {filteredBreeds.map((breed) => (
+                    <li
+                      key={breed.id}
+                      className="li"
+                      onClick={() => handleClickGetBreedName(breed.name)}
+                    >
+                      {breed.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="c__content">
-        <div className="c__image"></div>
-        <div className="c__text"></div>
-      </div>
+          <div className="c__content">
+            <div className="c__image"></div>
+            <div className="c__text"></div>
+          </div>{" "}
+        </>
+      )}
     </main>
   );
 }
 
-export default MainContent;
+export default React.memo(MainContent);
 
 {
   /* <div>
