@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 function Input({
   type,
   className,
@@ -6,6 +7,7 @@ function Input({
   placeholder,
   onFocus,
   onBlur,
+  onKeyUp,
 }) {
   return (
     <input
@@ -16,6 +18,7 @@ function Input({
       placeholder={placeholder}
       onFocus={onFocus}
       onBlur={onBlur}
+      onKeyUp={onKeyUp}
     />
   );
 }
