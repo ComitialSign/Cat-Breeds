@@ -8,6 +8,7 @@ function SearchBar({
   setSearchTerm,
   setSearchResult,
   onKeyUp,
+  setShowInitialInterface,
 }) {
   //focus/blur da div com o filter da search bar
   const [onFocus, setOnFocus] = useState(false);
@@ -16,18 +17,16 @@ function SearchBar({
 
   // fecha o result ao tirar o foco
   const handleBlur = () => {
-    new Promise((resolve) => {
-      setTimeout(() => {
-        setOnFocus(false);
-        resolve();
-      }, 200);
-    });
+    setTimeout(() => {
+      setOnFocus(false);
+    }, 200);
   };
 
   // Lida com onClick da Li
   const handleLiClick = (value) => {
     setSearchResult(value);
     setSearchTerm(value);
+    setShowInitialInterface(false);
   };
 
   return (

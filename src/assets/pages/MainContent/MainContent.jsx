@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import SearchBar from "../../Contents/SearchBar/SearchBar";
 import BreedInfo from "../../Contents/BreedInfo/BreedInfo";
+import Loading from "../../Contents/Loading/Loading";
+import ErrorStatusMsg from "../../Contents/ErrorStatusMsg/ErrorStatusMsg";
 
 function MainContent() {
   const url = "https://api.thecatapi.com/v1/breeds/";
@@ -18,12 +20,13 @@ function MainContent() {
   //loading do conteudo fetch
   const [loading, setLoading] = useState(true);
   //tela inicial ao entrar no site
-  const [showInitialInterface, setShowInitialInterface] = useState(true);
+  const [showInitialMsg, setShowInitialMsg] = useState(true);
   //tela ao pesquisar uma raça não existente
-  const [showWrongSearchInterface, setShowWrongSearchInterface] =
-    useState(false);
+  const [showWrongSearchMsg, setShowWrongSearchMsg] = useState(false);
   //tela caso de erro na API
-  const [showErrorInterface, setShowErrorInterface] = useState(false);
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
+  //pega o status code
+  const [statusCode, setStatusCode] = useState(null);
 
   //Fetch do CatAPI
   useEffect(() => {
@@ -40,24 +43,22 @@ function MainContent() {
           setBreeds(data);
           setLoading(false);
         } else {
-          setErrorStatusCode(response.status);
-          setShowErrorInterface(true);
+          setShowErrorMsg(true);
           throw new Error("Erro ao carregar a API");
         }
       } catch (error) {
         console.error("ocorreu um erro: ", error);
         setLoading(false);
-        setShowErrorInterface(true);
+        setShowErrorMsg(true);
+        setStatusCode(error.response.status);
+        console.log(`Status Code: ${error.response.status}`);
       }
     }
     fetchData();
   }, []);
 
-  const handleNewSearchTerm = (newSearchTerm) => {
-    setSearchTerm(newSearchTerm);
-    setShowInitialInterface(false);
-  };
-
+  //se a raça pesquisada no searchBar for igual a uma existente, ele irá renderizar na tela, se não ele dar uma
+  //pagina de "não encontrado".
   const filteredBreeds = breeds.filter(
     (breed) => breed.name.toLowerCase() === searchResult.toLowerCase()
   );
@@ -66,17 +67,16 @@ function MainContent() {
   const handleResult = (event) => {
     if (event.key === "Enter") {
       setSearchResult(searchTerm);
+      setShowInitialMsg(false);
     }
   };
 
   return (
-    <main className="container">
+    <section className="container">
       {loading ? (
-        <p>Carregando</p>
-      ) : showErrorInterface ? (
-        <div className="Error">
-          <p>Ocorreu um erro ao carregar o site</p>
-        </div>
+        <Loading />
+      ) : showErrorMsg ? (
+        <ErrorStatusMsg>{statusCode}</ErrorStatusMsg>
       ) : (
         <>
           <div className="c__search">
@@ -86,19 +86,29 @@ function MainContent() {
               setSearchTerm={setSearchTerm}
               setSearchResult={setSearchResult}
               onKeyUp={handleResult}
+              handleLiClick={handleResult}
+              setShowInitialInterface={setShowInitialInterface}
             />
           </div>
-          <div className="c__content">
-            <div className="c__image"></div>
-            <div className="c__text">
-              {filteredBreeds.map((breed) => (
-                <p>breed: {breed.name}</p>
-              ))}
-            </div>
-          </div>
+          <main className="c__content">
+            {showInitialMsg ? (
+              <>
+                <p>oi</p>
+              </>
+            ) : (
+              <>
+                <div className="c__image"></div>
+                <div className="c__text">
+                  {filteredBreeds.map((breed) => (
+                    <p key={breed.id}>breed: {breed.name}</p>
+                  ))}
+                </div>
+              </>
+            )}
+          </main>
         </>
       )}
-    </main>
+    </section>
   );
 }
 
