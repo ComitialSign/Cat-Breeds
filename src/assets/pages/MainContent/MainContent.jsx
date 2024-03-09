@@ -2,9 +2,10 @@ import "../../scss/MainContent.scss";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import SearchBar from "../../Contents/SearchBar/SearchBar";
-import BreedInfo from "../../Contents/BreedInfo/BreedInfo";
 import Loading from "../../Contents/Loading/Loading";
 import ErrorStatusMsg from "../../Contents/ErrorStatusMsg/ErrorStatusMsg";
+import FirstInterface from "../../Contents/FirstInterface/FirstInterface";
+import BreedInfo from "../../Contents/BreedInfo/BreedInfo";
 
 function MainContent() {
   const url = "https://api.thecatapi.com/v1/breeds/";
@@ -87,13 +88,13 @@ function MainContent() {
               setSearchResult={setSearchResult}
               onKeyUp={handleResult}
               handleLiClick={handleResult}
-              setShowInitialInterface={setShowInitialInterface}
+              setShowInitialMsg={setShowInitialMsg}
             />
           </div>
           <main className="c__content">
             {showInitialMsg ? (
               <>
-                <p>oi</p>
+                <FirstInterface />
               </>
             ) : (
               <>

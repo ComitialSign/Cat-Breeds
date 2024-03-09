@@ -8,7 +8,7 @@ function SearchBar({
   setSearchTerm,
   setSearchResult,
   onKeyUp,
-  setShowInitialInterface,
+  setShowInitialMsg,
 }) {
   //focus/blur da div com o filter da search bar
   const [onFocus, setOnFocus] = useState(false);
@@ -26,7 +26,7 @@ function SearchBar({
   const handleLiClick = (value) => {
     setSearchResult(value);
     setSearchTerm(value);
-    setShowInitialInterface(false);
+    setShowInitialMsg(false);
   };
 
   return (
