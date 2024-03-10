@@ -6,6 +6,8 @@
   max-height: auto;
   background-color: $mainContent-background-color;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .c__search {
@@ -46,7 +48,8 @@
     .result--activated {
       width: calc(100% / 2.4);
       min-height: 0;
-      max-height: 320px;
+      max-height: 200px;
+      z-index: 9999999;
       border: 1.2px solid black;
       border-radius: 0 0 8px 8px;
       border-top: 0;
@@ -77,6 +80,110 @@
           }
         }
       }
+    }
+  }
+}
+
+.c__content {
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.content__image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    max-width: 95%;
+    max-height: 500px;
+    border: 2px solid saddlebrown;
+    border-radius: 3%;
+    object-fit: contain;
+  }
+}
+
+.content__text {
+  padding: 0 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  p {
+    font-size: x-large;
+    span {
+      font-weight: bold;
+    }
+  }
+}
+
+@media only screen and (max-width: $small-size) {
+  .container {
+    width: 100vw;
+    min-height: 100vh;
+    gap: 20px;
+  }
+
+  .c__search {
+    .search__bar {
+      .search {
+        height: 100%;
+        font-size: 1rem;
+        width: calc($c__search-width / 1.6);
+      }
+    }
+    .search__result {
+      .result--activated {
+        width: calc(100% / 1.6);
+      }
+    }
+  }
+
+  .content__text {
+    p {
+      font-size: 1rem;
+    }
+  }
+}
+
+@media only screen and (max-width: $medium-size) {
+  .container {
+    width: 98vw;
+    min-height: 100vh;
+    background-color: $mainContent-background-color;
+    border-radius: 0;
+    gap: 20px;
+  }
+
+  .c__search {
+    .search__bar {
+      .search {
+        padding: 15px;
+        font-size: 1.6rem;
+        width: calc($c__search-width / 1.5);
+      }
+    }
+    .search__result {
+      .result--activated {
+        width: calc(100% / 1.5);
+        font-size: 1.6rem;
+      }
+    }
+  }
+
+  .content__text {
+    p {
+      font-size: 2rem;
     }
   }
 }

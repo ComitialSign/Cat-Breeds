@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  height: 62vh;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -21,8 +21,8 @@ export default function ErrorStatusMsg({ children }) {
   return (
     <>
       <Container>
-        <Text>erro ao carregar a página</Text>
-        <TextStatus>Status code: {children}</TextStatus>
+        <Text>Error loading page</Text>
+        <TextStatus>{children}</TextStatus>
       </Container>
     </>
   );

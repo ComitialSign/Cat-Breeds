@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import catImg from "../../data/img/cat-FirstInterface.png";
+import catImg from "../../data/img/cat-FirstInterface-img.png";
 
 const Container = styled.div`
   width: 100%;
@@ -8,18 +8,20 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const Image = styled.img`
   width: 300px;
   height: 300px;
-  position: relative;
   margin-bottom: 180px;
 `;
 
 const Text = styled.p`
   font-size: 1.5rem;
   position: absolute;
+  padding: 0 50px;
+  margin: 40px 0 0 0;
 `;
 
 export default function FirstInterface({}) {

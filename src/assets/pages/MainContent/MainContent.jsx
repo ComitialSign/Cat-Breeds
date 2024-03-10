@@ -22,8 +22,6 @@ function MainContent() {
   const [loading, setLoading] = useState(true);
   //tela inicial ao entrar no site
   const [showInitialMsg, setShowInitialMsg] = useState(true);
-  //tela ao pesquisar uma raça não existente
-  const [showWrongSearchMsg, setShowWrongSearchMsg] = useState(false);
   //tela caso de erro na API
   const [showErrorMsg, setShowErrorMsg] = useState(false);
   //pega o status code
@@ -41,6 +39,7 @@ function MainContent() {
 
         if (response.status >= 200 || response.status < 300) {
           const data = response.data;
+          console.log(breeds);
           setBreeds(data);
           setLoading(false);
         } else {
@@ -64,14 +63,6 @@ function MainContent() {
     (breed) => breed.name.toLowerCase() === searchResult.toLowerCase()
   );
 
-  //lida com o resultado quando enter é apertado
-  const handleResult = (event) => {
-    if (event.key === "Enter") {
-      setSearchResult(searchTerm);
-      setShowInitialMsg(false);
-    }
-  };
-
   return (
     <section className="container">
       {loading ? (
@@ -86,8 +77,6 @@ function MainContent() {
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
               setSearchResult={setSearchResult}
-              onKeyUp={handleResult}
-              handleLiClick={handleResult}
               setShowInitialMsg={setShowInitialMsg}
             />
           </div>
@@ -97,14 +86,38 @@ function MainContent() {
                 <FirstInterface />
               </>
             ) : (
-              <>
-                <div className="c__image"></div>
-                <div className="c__text">
-                  {filteredBreeds.map((breed) => (
-                    <p key={breed.id}>breed: {breed.name}</p>
-                  ))}
+              filteredBreeds.map((breed) => (
+                <div key={breed.id} className="content">
+                  <div className="content__image">
+                    <img src={breed.image.url} alt="cat picture" />
+                  </div>
+                  <div className="content__text">
+                    <p>
+                      <span>Breed:</span> {breed.name}
+                    </p>
+                    <p>
+                      <span>Description:</span> {breed.description}
+                    </p>
+                    <p>
+                      <span>Temperament:</span> {breed.temperament}
+                    </p>
+                    <p>
+                      <span>Origin:</span> {breed.origin}
+                    </p>
+                    <p>
+                      <span>Life span:</span> {breed.life_span} years
+                    </p>
+                    <p>
+                      <span>Weight:</span> {breed.weight.metric} kg
+                    </p>
+                    <p>
+                      <a href={breed.wikipedia_url}>
+                        <span>Wikipedia</span>
+                      </a>
+                    </p>
+                  </div>
                 </div>
-              </>
+              ))
             )}
           </main>
         </>

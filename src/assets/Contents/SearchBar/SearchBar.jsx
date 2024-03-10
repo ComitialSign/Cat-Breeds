@@ -7,7 +7,6 @@ function SearchBar({
   searchTerm,
   setSearchTerm,
   setSearchResult,
-  onKeyUp,
   setShowInitialMsg,
 }) {
   //focus/blur da div com o filter da search bar
@@ -40,7 +39,6 @@ function SearchBar({
           onFocus={() => setOnFocus(true)}
           onBlur={handleBlur}
           onChange={(event) => setSearchTerm(event.target.value)}
-          onKeyUp={onKeyUp}
         />
       </div>
       <div className="search__result">
